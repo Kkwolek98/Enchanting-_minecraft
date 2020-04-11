@@ -1,0 +1,29 @@
+modLoader="javafml" #mandatory
+loaderVersion="[31,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
+issueTrackerURL="" #optional
+[[mods]] #mandatory
+modId="enchanting_plus" #mandatory
+version="1.15.2-0.1.0" #mandatory
+displayName="Enchanting+" #mandatory
+updateJSONURL="" #optional
+displayURL="" #optional
+logoFile="examplemod.png" #optional
+credits="Thanks for this example mod goes to Java" #optional
+authors="Kkwolek98 @ Github" #optional
+description='''
+Better Enchanting
+'''
+
+[[dependencies.examplemod]] #optional
+    modId="forge" #mandatory
+    mandatory=true #mandatory
+    versionRange="[31,)" #mandatory
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.examplemod]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.15.2]"
+    ordering="NONE"
+    side="BOTH"
