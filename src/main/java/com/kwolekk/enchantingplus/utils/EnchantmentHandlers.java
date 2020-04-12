@@ -8,6 +8,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.particles.IParticleData;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.math.BlockPos;
@@ -16,6 +17,8 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
+import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = EnchantingPlus.MOD_ID)
 public class EnchantmentHandlers {
@@ -38,9 +41,15 @@ public class EnchantmentHandlers {
             final Enchantment LIFE_LEECH = RegistryHandler.LIFE_LEECH.get();
             int level = EnchantmentHelper.getEnchantmentLevel(LIFE_LEECH, player.getItemStackFromSlot(EquipmentSlotType.MAINHAND));
             if(!player.getEntityWorld().isRemote && level > 0) {
+                Random rand = new Random();
                 float fLvl = (float) level;
-                float healing = fLvl * 0.5f;
-                player.heal(healing);
+                float healing = fLvl;
+                int baseChance = 40;
+                int rnum = rand.nextInt(100);
+                if(rnum > (100 - baseChance - 5*level)) {
+                    if(rnum > 90) healing += 2f;
+                    player.heal(healing);
+                }
             }
         }
     }
