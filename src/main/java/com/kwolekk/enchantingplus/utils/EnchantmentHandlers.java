@@ -17,6 +17,7 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.CooldownTracker;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -86,6 +87,7 @@ public class EnchantmentHandlers {
         boolean hasCooldown = attacker.getCooldownTracker().getCooldown(heldItem.getItem(), 0)> 0.0f;
 
         if(level > 0 && isFalling && !hasCooldown) {
+            attacker.swingArm(Hand.MAIN_HAND);
             List<LivingEntity> entities =
                     world.getEntitiesWithinAABB(MobEntity.class,
                             new AxisAlignedBB(pos.add(0, 1, 0)).grow(3.0D, 0.0D, 3.0D));
