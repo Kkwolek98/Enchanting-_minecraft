@@ -4,7 +4,9 @@ import com.kwolekk.enchantingplus.EnchantingPlus;
 import com.kwolekk.enchantingplus.enchantments.Swiftness;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -15,6 +17,7 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.CooldownTracker;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -42,9 +45,12 @@ public class EnchantmentHandlers {
         Object attacker = event.getEntity();
         if(attacker instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity)attacker;
+            LivingEntity target = (LivingEntity)event.getTarget();
+
             final Enchantment LIFE_LEECH = RegistryHandler.LIFE_LEECH.get();
             int level = EnchantmentHelper.getEnchantmentLevel(LIFE_LEECH, player.getItemStackFromSlot(EquipmentSlotType.MAINHAND));
             boolean hasCooldown = player.getCooledAttackStrength(0) < 1F; //1F = fully charged
+
             if(!player.getEntityWorld().isRemote && level > 0 && !hasCooldown) {
                 Random rand = new Random();
                 float fLvl = (float) level;
