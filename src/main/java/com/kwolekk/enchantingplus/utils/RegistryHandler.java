@@ -1,6 +1,7 @@
 package com.kwolekk.enchantingplus.utils;
 
 import com.kwolekk.enchantingplus.EnchantingPlus;
+import com.kwolekk.enchantingplus.enchantments.Groundshaker;
 import com.kwolekk.enchantingplus.enchantments.LifeLeech;
 import com.kwolekk.enchantingplus.enchantments.Swiftness;
 import net.minecraft.enchantment.Enchantment;
@@ -22,6 +23,9 @@ public class RegistryHandler {
 
     public static final RegistryObject<Enchantment> LIFE_LEECH
             = ENCHANTMENTS.register("life_leech", LifeLeech::new);
+
+    public static final RegistryObject<Enchantment> GROUNDSHAKER
+            = ENCHANTMENTS.register("groundshaker", Groundshaker::new);
 
     public static void init() {
         ENCHANTMENTS.register(FMLJavaModLoadingContext.get().getModEventBus());
