@@ -8,13 +8,17 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.util.CooldownTracker;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -34,20 +38,21 @@ public class EnchantmentHandlers {
     }
 
     @SubscribeEvent
-    public static void lifeLeech(LivingAttackEvent event) {
-        Object attacker = event.getSource().getTrueSource();
+    public static void lifeLeech(AttackEntityEvent event) {
+        Object attacker = event.getEntity();
         if(attacker instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity)attacker;
             final Enchantment LIFE_LEECH = RegistryHandler.LIFE_LEECH.get();
             int level = EnchantmentHelper.getEnchantmentLevel(LIFE_LEECH, player.getItemStackFromSlot(EquipmentSlotType.MAINHAND));
-            if(!player.getEntityWorld().isRemote && level > 0) {
+            boolean hasCooldown = player.getCooledAttackStrength(0) < 1F; //1F = fully charged
+            if(!player.getEntityWorld().isRemote && level > 0 && !hasCooldown) {
                 Random rand = new Random();
                 float fLvl = (float) level;
                 float healing = fLvl;
                 final int BASE_CHANCE = 20;
                 int rnum = rand.nextInt(100);
-                if(rnum > (100 - BASE_CHANCE - 5*(level-1))) {
-                    if(rnum > 90) healing += 2f;
+                if(rnum >= (100 - BASE_CHANCE - 5*(level-1))) {
+                    if(rnum >= 90) healing += 2f;
                     player.heal(healing);
                 }
             }
