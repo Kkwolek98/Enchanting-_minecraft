@@ -44,9 +44,9 @@ public class EnchantmentHandlers {
                 Random rand = new Random();
                 float fLvl = (float) level;
                 float healing = fLvl;
-                int baseChance = 40;
+                final int BASE_CHANCE = 20;
                 int rnum = rand.nextInt(100);
-                if(rnum > (100 - baseChance - 5*level)) {
+                if(rnum > (100 - BASE_CHANCE - 5*(level-1))) {
                     if(rnum > 90) healing += 2f;
                     player.heal(healing);
                 }
