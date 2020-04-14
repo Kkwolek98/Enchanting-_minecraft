@@ -110,6 +110,7 @@ public class EnchantmentHandlers {
 
     @SubscribeEvent
     public static void cultivator(UseHoeEvent event) {
+        //TODO: check if there is any block above target block to prevent spawning seeds when there is fence above.
         PlayerEntity player = event.getPlayer();
         World world = event.getEntity().world;
 
@@ -125,8 +126,7 @@ public class EnchantmentHandlers {
             final int BASE_CHANCE = 20;
             int randInt = random.nextInt(100);
             if(randInt > (100 - BASE_CHANCE - (level - 1)*10)) {
-                event.getEntity().getEntityWorld()
-                        .addEntity(new ItemEntity(world, targetPos.getX()+0.5, targetPos.getY()+1, targetPos.getZ()+0.5, new ItemStack(Items.WHEAT_SEEDS, 1)));
+                world.addEntity(new ItemEntity(world, targetPos.getX()+0.5, targetPos.getY()+1, targetPos.getZ()+0.5, new ItemStack(Items.WHEAT_SEEDS, 1)));
             }
         }
     }
