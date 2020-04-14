@@ -1,6 +1,7 @@
 package com.kwolekk.enchantingplus.utils;
 
 import com.kwolekk.enchantingplus.EnchantingPlus;
+import com.kwolekk.enchantingplus.enchantments.Cultivator;
 import com.kwolekk.enchantingplus.enchantments.Groundshaker;
 import com.kwolekk.enchantingplus.enchantments.LifeLeech;
 import com.kwolekk.enchantingplus.enchantments.Swiftness;
@@ -26,6 +27,9 @@ public class RegistryHandler {
 
     public static final RegistryObject<Enchantment> GROUNDSHAKER
             = ENCHANTMENTS.register("groundshaker", Groundshaker::new);
+
+    public static final RegistryObject<Enchantment> CULTIVATOR
+            = ENCHANTMENTS.register("cultivator", Cultivator::new);
 
     public static void init() {
         ENCHANTMENTS.register(FMLJavaModLoadingContext.get().getModEventBus());

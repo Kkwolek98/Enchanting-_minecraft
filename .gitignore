@@ -5,3 +5,4 @@ run/crash-reports/crash-2020-04-13_00.01.35-server.txt
 .idea/
 .gradle/
 build/
+run/usercache.json
