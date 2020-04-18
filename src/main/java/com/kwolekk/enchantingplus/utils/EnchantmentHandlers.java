@@ -2,6 +2,7 @@ package com.kwolekk.enchantingplus.utils;
 
 import com.kwolekk.enchantingplus.EnchantingPlus;
 import com.kwolekk.enchantingplus.enchantments.Swiftness;
+import net.minecraft.block.AirBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.GrassBlock;
@@ -19,6 +20,7 @@ import net.minecraft.item.Items;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.CooldownTracker;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
@@ -118,14 +120,15 @@ public class EnchantmentHandlers {
         Block targetBlock = world.getBlockState(targetPos).getBlock();
         BlockState blockState = world.getBlockState(targetPos);
 
+        boolean noBlockAbove = world.getBlockState(targetPos.add(0,1,0)).getBlock() instanceof AirBlock;
         final Enchantment CULTIVATOR = RegistryHandler.CULTIVATOR.get();
         int level = EnchantmentHelper.getEnchantmentLevel(CULTIVATOR, player.getItemStackFromSlot(EquipmentSlotType.MAINHAND));
 
-        if(level > 0 && targetBlock instanceof GrassBlock) {
+        if(level > 0 && targetBlock instanceof GrassBlock && noBlockAbove) {
             Random random = new Random();
             final int BASE_CHANCE = 20;
             int randInt = random.nextInt(100);
-            if(randInt > (100 - BASE_CHANCE - (level - 1)*10)) {
+            if(randInt > (100 - BASE_CHANCE - (level - 1)*8)) {
                 world.addEntity(new ItemEntity(world, targetPos.getX()+0.5, targetPos.getY()+1, targetPos.getZ()+0.5, new ItemStack(Items.WHEAT_SEEDS, 1)));
             }
         }
