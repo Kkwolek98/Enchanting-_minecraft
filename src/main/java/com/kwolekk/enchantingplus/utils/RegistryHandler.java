@@ -1,10 +1,7 @@
 package com.kwolekk.enchantingplus.utils;
 
 import com.kwolekk.enchantingplus.EnchantingPlus;
-import com.kwolekk.enchantingplus.enchantments.Cultivator;
-import com.kwolekk.enchantingplus.enchantments.Groundshaker;
-import com.kwolekk.enchantingplus.enchantments.LifeLeech;
-import com.kwolekk.enchantingplus.enchantments.Swiftness;
+import com.kwolekk.enchantingplus.enchantments.*;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -30,6 +27,9 @@ public class RegistryHandler {
 
     public static final RegistryObject<Enchantment> CULTIVATOR
             = ENCHANTMENTS.register("cultivator", Cultivator::new);
+
+    public static final RegistryObject<Enchantment> SPRING_BOOTS
+            = ENCHANTMENTS.register("spring_boots", SpringBoots::new);
 
     public static void init() {
         ENCHANTMENTS.register(FMLJavaModLoadingContext.get().getModEventBus());

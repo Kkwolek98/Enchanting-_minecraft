@@ -53,7 +53,8 @@ public class EnchantmentHandlers {
         LivingEntity living = event.getEntityLiving();
         int level = EnchantmentHelper.getEnchantmentLevel(SWIFTNESS, living.getItemStackFromSlot(EquipmentSlotType.FEET));
         if(level > 0) {
-            living.addPotionEffect(new EffectInstance(Effects.SPEED, 30, level-1));
+            living.addPotionEffect(
+                    new EffectInstance(Effects.SPEED, 30, level-1, true, false));
         }
     }
 
@@ -112,13 +113,11 @@ public class EnchantmentHandlers {
 
     @SubscribeEvent
     public static void cultivator(UseHoeEvent event) {
-        //TODO: check if there is any block above target block to prevent spawning seeds when there is fence above.
         PlayerEntity player = event.getPlayer();
         World world = event.getEntity().world;
 
         BlockPos targetPos = event.getContext().getPos();
         Block targetBlock = world.getBlockState(targetPos).getBlock();
-        BlockState blockState = world.getBlockState(targetPos);
 
         boolean noBlockAbove = world.getBlockState(targetPos.add(0,1,0)).getBlock() instanceof AirBlock;
         final Enchantment CULTIVATOR = RegistryHandler.CULTIVATOR.get();
@@ -131,6 +130,17 @@ public class EnchantmentHandlers {
             if(randInt > (100 - BASE_CHANCE - (level - 1)*8)) {
                 world.addEntity(new ItemEntity(world, targetPos.getX()+0.5, targetPos.getY()+1, targetPos.getZ()+0.5, new ItemStack(Items.WHEAT_SEEDS, 1)));
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void springBoots(LivingEvent.LivingUpdateEvent event) {
+        final Enchantment SPRING_BOOTS = RegistryHandler.SPRING_BOOTS.get();   //Get class in method instead of getting it in class, fix later
+        LivingEntity living = event.getEntityLiving();
+        int level = EnchantmentHelper.getEnchantmentLevel(SPRING_BOOTS, living.getItemStackFromSlot(EquipmentSlotType.FEET));
+        if(level > 0) {
+            living.addPotionEffect(
+                    new EffectInstance(Effects.JUMP_BOOST, 40, level-1, true, false));
         }
     }
 }
