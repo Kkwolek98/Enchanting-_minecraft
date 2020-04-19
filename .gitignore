@@ -6,3 +6,5 @@ run/crash-reports/crash-2020-04-13_00.01.35-server.txt
 .gradle/
 build/
 run/usercache.json
+run/eula.txt
+run/server.properties

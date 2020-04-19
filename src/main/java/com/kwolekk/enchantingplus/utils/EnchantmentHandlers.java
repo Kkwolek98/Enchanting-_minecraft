@@ -3,6 +3,7 @@ package com.kwolekk.enchantingplus.utils;
 import com.kwolekk.enchantingplus.EnchantingPlus;
 import net.minecraft.block.AirBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.GrassBlock;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -12,10 +13,15 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.particles.BlockParticleData;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -41,7 +47,7 @@ public class EnchantmentHandlers {
         int level = EnchantmentHelper.getEnchantmentLevel(SWIFTNESS, living.getItemStackFromSlot(EquipmentSlotType.FEET));
         if(level > 0) {
             living.addPotionEffect(
-                    new EffectInstance(Effects.SPEED, 30, level-1, true, false));
+                    new EffectInstance(Effects.SPEED, 30, level-1, false, false));
         }
     }
 
@@ -80,14 +86,28 @@ public class EnchantmentHandlers {
         final Enchantment GROUNDSHAKER = RegistryHandler.GROUNDSHAKER.get();
         int level = EnchantmentHelper.getEnchantmentLevel(GROUNDSHAKER, attacker.getItemStackFromSlot(EquipmentSlotType.MAINHAND));
 
-        boolean isFalling = attacker.getMotion().getY() < -0.0784000015258789;
+        double attackerVerticalMotion = attacker.getMotion().getY();
+        boolean isFalling = attackerVerticalMotion < -0.0784000015258789;
         boolean hasCooldown = attacker.getCooldownTracker().getCooldown(heldItem.getItem(), 0)> 0.0f;
 
         if(level > 0 && isFalling && !hasCooldown) {
             attacker.swingArm(Hand.MAIN_HAND);
+            attacker.playSound(new SoundEvent(new ResourceLocation("minecraft",
+                    "entity.player.attack.sweep")), 5, 0.4f);
+            AxisAlignedBB hitArea = new AxisAlignedBB(pos.add(0, 1, 0)).grow(3.0D, 0.0D, 3.0D);
             List<LivingEntity> entities =
-                    world.getEntitiesWithinAABB(MobEntity.class,
-                            new AxisAlignedBB(pos.add(0, 1, 0)).grow(3.0D, 0.0D, 3.0D));
+                    world.getEntitiesWithinAABB(MobEntity.class, hitArea);
+            BlockState blockState = world.getBlockState(pos);
+            for(int i = 0; i < 35; i++) {
+                Random random = new Random();
+                double xModifier = random.nextDouble();
+                double zModifier = random.nextDouble();
+                int direction = random.nextBoolean() ? 1 : -1;
+                world.addParticle(
+                        new BlockParticleData(ParticleTypes.BLOCK, blockState),
+                        pos.getX() + xModifier*3*direction, pos.getY()+1, pos.getZ() + zModifier*3*direction,
+                        0, 3+(-attackerVerticalMotion*10), 0);
+            }
             entities.forEach(mob -> {
                 mob.performHurtAnimation();
                 mob.attackEntityFrom(DamageSource.causePlayerDamage(attacker), 1f);
@@ -127,7 +147,7 @@ public class EnchantmentHandlers {
         int level = EnchantmentHelper.getEnchantmentLevel(SPRING_BOOTS, living.getItemStackFromSlot(EquipmentSlotType.FEET));
         if(level > 0) {
             living.addPotionEffect(
-                    new EffectInstance(Effects.JUMP_BOOST, 40, level-1, true, false));
+                    new EffectInstance(Effects.JUMP_BOOST, 40, level-1, false, false));
         }
     }
 }
