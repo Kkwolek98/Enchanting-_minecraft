@@ -82,7 +82,6 @@ public class EnchantmentHandlers {
         BlockPos pos = event.getPos();
         World world = event.getWorld();
         ItemStack heldItem = attacker.getItemStackFromSlot(EquipmentSlotType.MAINHAND);
-
         final Enchantment GROUNDSHAKER = RegistryHandler.GROUNDSHAKER.get();
         int level = EnchantmentHelper.getEnchantmentLevel(GROUNDSHAKER, attacker.getItemStackFromSlot(EquipmentSlotType.MAINHAND));
 

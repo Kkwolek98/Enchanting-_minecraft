@@ -1,17 +1,26 @@
 modLoader="javafml" #mandatory
 loaderVersion="[31,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
-issueTrackerURL="http://minecraft.net" #optional
+issueTrackerURL="https://github.com/Kkwolek98/EnchantingPlus_minecraft/issues" #optional
 [[mods]] #mandatory
 modId="enchanting_plus" #mandatory
-version="1.15.2-0.1.0" #mandatory
+version="1.15.2__0.1.0" #mandatory
 displayName="Enchanting+" #mandatory
 updateJSONURL="http://minecraft.net" #optional
-displayURL="http://minecraft.net" #optional
+displayURL="https://github.com/Kkwolek98/EnchantingPlus_minecraft" #optional
 logoFile="examplemod.png" #optional
 credits="Thanks for this example mod goes to Java" #optional
 authors="Kkwolek98 @ Github" #optional
 description='''
-Better Enchanting
+Enchanting+ brings more enchanting options to Minecraft.
+
+Available enchants:
+Cultivator - hoe enchantment -- get seeds using hoe on grass block.
+Groundshaker - axe enchantment -- knock mobs in the air using your axe in the air on a block below you.
+Life Leech - weapon enchantment -- get some hearts from damaging mobs.
+Spring Boots - jump higher.
+Swiftness - run faster.
+
+Mod is in constant development.
 '''
 
 [[dependencies.examplemod]] #optional
