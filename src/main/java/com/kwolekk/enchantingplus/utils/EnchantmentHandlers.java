@@ -102,10 +102,11 @@ public class EnchantmentHandlers {
                 Random random = new Random();
                 double xModifier = random.nextDouble();
                 double zModifier = random.nextDouble();
-                int direction = random.nextBoolean() ? 1 : -1;
+                int directionX = random.nextBoolean() ? 1 : -1;
+                int directionZ = random.nextBoolean() ? 1 : -1;
                 world.addParticle(
                         new BlockParticleData(ParticleTypes.BLOCK, blockState),
-                        pos.getX() + xModifier*3*direction, pos.getY()+1, pos.getZ() + zModifier*3*direction,
+                        pos.getX() + xModifier*3*directionX, pos.getY()+1, pos.getZ() + zModifier*3*directionZ,
                         0, 3+(-attackerVerticalMotion*10), 0);
             }
             entities.forEach(mob -> {
