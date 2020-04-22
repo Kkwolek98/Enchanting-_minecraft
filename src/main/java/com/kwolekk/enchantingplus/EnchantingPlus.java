@@ -1,5 +1,6 @@
 package com.kwolekk.enchantingplus;
 
+import com.kwolekk.enchantingplus.enchantments.LifeLeech;
 import com.kwolekk.enchantingplus.utils.EnchantmentHandlers;
 import com.kwolekk.enchantingplus.utils.EventsHandler;
 import com.kwolekk.enchantingplus.utils.RegistryHandler;
@@ -36,7 +37,6 @@ public class EnchantingPlus
     @SubscribeEvent
     public static void registerEnchants(final RegistryEvent.Register<Enchantment> event) {
         final IForgeRegistry<Enchantment> registry = event.getRegistry();
-
     }
 
     private void setup(final FMLCommonSetupEvent event) {
